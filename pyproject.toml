@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "aioredis-semaphore"
+version = "0.1.0"
+description = ""
+authors = ["David Jiménez <davigetto@gmail.com>"]
+readme = "README.md"
+packages = [{include = "aioredis_semaphore"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+aioredis = "^2.0.1"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.2.1"
+tox = "^4.3.5"
+pyhamcrest = "^2.0.4"
+anyio = "^3.6.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

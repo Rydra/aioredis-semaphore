@@ -1,8 +1,0 @@
-language: python
-
-install: "pip install -r requirements_dev.txt"
-
-services:
-    - redis-server
-
-script: tox
