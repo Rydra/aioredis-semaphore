@@ -100,14 +100,3 @@ class TestSemaphore:
             captured_exception = e
 
         assert_that(captured_exception, is_(NotAvailable))
-
-
-if __name__ == "__main__":
-    from os.path import dirname, abspath
-    import sys
-    import unittest
-
-    d = dirname
-    current_path = d(d(abspath(__file__)))
-    sys.path.append(current_path)
-    unittest.main()

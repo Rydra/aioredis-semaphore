@@ -16,6 +16,7 @@ pytest = "^7.2.1"
 tox = "^4.3.5"
 pyhamcrest = "^2.0.4"
 anyio = "^3.6.2"
+pytest-cov = "^4.0.0"
 
 [build-system]
 requires = ["poetry-core"]
