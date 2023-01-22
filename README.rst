@@ -1,9 +1,6 @@
 ===============
-Redis-Semaphore
+aioredis-semaphore
 ===============
-
-.. image:: https://travis-ci.org/bluele/redis-semaphore.svg?branch=master
-    :target: https://travis-ci.org/bluele/redis-semaphore
 
 
 A distributed semaphore and mutex built on Redis.
@@ -11,16 +8,9 @@ A distributed semaphore and mutex built on Redis.
 
 Installation
 ------------
-To install redis-semaphore, simply::
+To install aioredis-semaphore, simply::
 
-    pip install redis-semaphore
-
-
-Or alternatively, you can download the repository and install manually by doing::
-
-    git clone git@github.com:bluele/redis-semaphore.git
-    cd redis-semaphore
-    python setup.py install
+    pip install aioredis-semaphore
 
 
 Examples
@@ -28,31 +18,29 @@ Examples
 
 ::
 
-    from redis import Redis
-    from redis_semaphore import Semaphore
-    from threading import Thread
-    import urllib2
-    import time
+    # -*- coding:utf-8 -*-
+    import anyio
+    from aioredis import Redis
+    from anyio import create_task_group, run
 
-    semaphore = Semaphore(Redis(), count=2, namespace='example')
+    from aioredis_semaphore import Semaphore
 
-
-    def task(i):
-        url = 'https://www.google.co.jp/'
-        with semaphore:
-            print('id: {} => {}'.format(i, urllib2.urlopen(url).code))
-            print('sleep...')
-            time.sleep(2)
+    semaphore = Semaphore(Redis(), count=2, namespace="example")
 
 
-    def main():
-        threads = list()
-        for i in range(5):
-            threads.append(Thread(target=task, args=(i,)))
-        for th in threads:
-            th.start()
-        for th in threads:
-            th.join()
+    async def task(i: int) -> None:
+        async with semaphore:
+            print("id: {}".format(i))
+            print("sleep...")
+            await anyio.sleep(2)
 
-    if __name__ == '__main__':
-        main()
+
+    async def main() -> None:
+        async with create_task_group() as tg:
+            for i in range(5):
+                tg.start_soon(task, i)
+
+
+    if __name__ == "__main__":
+        run(main)
+
